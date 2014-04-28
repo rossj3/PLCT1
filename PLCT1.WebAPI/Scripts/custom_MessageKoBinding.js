@@ -10,8 +10,17 @@ function Message(data) {
 function MessageListViewModel() {
     // Data
     var self = this;
+
     self.displayAll = ko.observable(); // if true, show starred and unstarred. otherwise only show starred.
+
+    self.displayAll(true); // start out displaying all messages.
+
+    self.onDisplayAllChanged = function () {
+        alert(self.displayAll());
+    };
+
     self.messages = ko.observableArray([]);
+    self.messages.subscribe(function () { alert("foo"); });
 
     self.newMessageText = ko.observable();
 
@@ -22,42 +31,43 @@ function MessageListViewModel() {
         return ko.utils.arrayFilter(self.messages(), function (message) { return message.isStarred() });
     });
 
-    self.updateMessage = function (message) {
-        $.ajax({
-            url: '/script.cgi',
-            type: 'PUT',
-            data: message,
-            success: function (result) {
-                // reload all the messages (this will add in any messages added by other users since the last get)
-            }
-        });
-    }
-
     // Operations
     self.loadData = function () {
         // Load initial state from server, convert it to Message instances, then populate self.messages.
-        var self2 = self;
         $.getJSON(urlBase + "Messages/", function (allData) {
-            alert("loading data3");
+            alert("callback - loading data");
             var mappedMessages = $.map(allData, function (item) { return new Message(item) });
-            self2.messages(mappedMessages);
+            self.messages(mappedMessages);
         });
 
         self.newMessageText("");
     };
 
     self.addMessage = function () {
-        var newMessage = new Message({ content: self.newMessageText() });
-        self.messages.push(newMessage);
+        var newMessage = new Message({ Content: self.newMessageText(), IsStarred: false, MessageId: 0, DatePosted: '1/1/2000' });
+
+        //self.messages.push(newMessage); // this isn't really needed.
+
         $.post(urlBase + "Messages/", newMessage, function () {
-            // need to then refresh all existing data...
+            // need to then refresh all existing data - AFTER the add has completed.
+            // reload all the messages (this will add in any messages added by other users since the last get)
             self.loadData();
         }, "json");
-
-        //self.loadData();
     };
 
-    // this needs to make a callback...
+    self.updateMessage = function (message) {
+        $.ajax({
+            url: urlBase + "Messages/",
+            type: 'PUT',
+            data: message,
+            success: function (result) {
+                // reload all the messages (this will add in any messages added by other users since the last get)
+                alert("result: " + result);
+                self.loadData();
+            }
+        });
+    }
+
     self.removeMessage = function (message) {
         self.messages.remove(message);
 
@@ -65,7 +75,7 @@ function MessageListViewModel() {
             url: urlBase + "Messages/" + message.messageId(),
             type: 'DELETE',
             success: function (result) {
-                // Do something with the result
+                // reload all the messages (this will add in any messages added by other users since the last get)
                 self.loadData();
             }
         });

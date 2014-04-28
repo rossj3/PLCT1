@@ -3,6 +3,7 @@
 }
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js" type="text/javascript"></script>
+<script src="~/Scripts/bootstrap.min.js" type="text/javascript"></script>
 <script src="~/Scripts/custom_MessageKoBinding.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -13,6 +14,7 @@
 
 <link rel="stylesheet" type="text/css" href="/Content/font-awesome.css">
 <link rel="stylesheet" type="text/css" href="/Content/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="/Content/bootstrap.min.css">
 
 <div class="jumbotron">
     <h1>ASP.NET MVC 5 Demo</h1>
@@ -37,11 +39,12 @@
         You have <b data-bind="text: starredMessages().length">&nbsp;</b> starred message(s).
 
         <br />
+        <input type="checkbox" data-bind="checked: displayAll, event: { change: onDisplayAllChanged }" title="foo">Display All
         <br />
         <table data-bind="visible: messages().length > 0">
             <thead>
                 <tr>
-                    <th></th><!-- Starred -->
+                    <th>starred?</th><!-- Starred -->
                     <th>Date Posted</th>
                     <th>Message</th>
                     <th></th><!-- Delete button -->
@@ -52,7 +55,7 @@
                     <td>
                         <i class="fa fa-star"></i>
                         <input type="checkbox" data-bind="value: isStarred">
-                        
+
                         <i class="fa fa-star-o"></i>
                     </td>
                     <td data-bind="text: datePosted" style="white-space: nowrap"></td>

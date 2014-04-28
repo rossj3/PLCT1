@@ -16,27 +16,18 @@ namespace PLCT1.Web.Controllers
         // GET api/Messages
         public IEnumerable<PLCT1.Message> Get()
         {
-            var x = _repository.GetMessages().ToList();
-
-            return x;
+            return _repository.GetMessages().ToList();
         }
 
         // POST api/Messages
         public PLCT1.Message Post([FromBody]PLCT1.Message value)
         {
-            // add
-            // need to change this to return the new result... some vals like ID got changed.
-            _repository.AddMessage(value.Content);
-            // that should have saved automatically...
-            return value; // with updated properties...
+            return _repository.AddMessage(value.Content);
         }
 
         // PUT api/Messages/5
         public PLCT1.Message Put(int id, [FromBody]PLCT1.Message value)
         {
-            // update
-            // need to change this to return the new result... some vals like "Updated" got changed.
-
             _repository.SetStarredValue(value.MessageId, value.Starred);
             return value;
         }
