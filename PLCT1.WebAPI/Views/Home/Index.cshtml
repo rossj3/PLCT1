@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "MVC 5 Demo";
+}
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js" type="text/javascript"></script>
+<script src="~/Scripts/custom_MessageKoBinding.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        ko.applyBindings(new MessageListViewModel());
+    });
+</script>
+
+<link rel="stylesheet" type="text/css" href="/Content/font-awesome.css">
+<link rel="stylesheet" type="text/css" href="/Content/font-awesome.min.css">
+
+<div class="jumbotron">
+    <h1>ASP.NET MVC 5 Demo</h1>
+    <p class="lead">Use the controls below to view, add and delete messages.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Add a Message</h2>
+
+        <form data-bind="submit: addMessage">
+            <input data-bind="value: newMessageText" placeholder="What needs to be done?" />
+            <button type="submit">Add</button>
+        </form>
+
+    </div>
+    <div class="col-md-4">
+
+        <h2>Messages</h2>
+        You have <b data-bind="text: unstarredMessages().length">&nbsp;</b> unstarred message(s).
+        <br />
+        You have <b data-bind="text: starredMessages().length">&nbsp;</b> starred message(s).
+
+        <br />
+        <br />
+        <table data-bind="visible: messages().length > 0">
+            <thead>
+                <tr>
+                    <th></th><!-- Starred -->
+                    <th>Date Posted</th>
+                    <th>Message</th>
+                    <th></th><!-- Delete button -->
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: messages">
+                <tr>
+                    <td>
+                        <i class="fa fa-star"></i>
+                        <input type="checkbox" data-bind="value: isStarred">
+                        
+                        <i class="fa fa-star-o"></i>
+                    </td>
+                    <td data-bind="text: datePosted" style="white-space: nowrap"></td>
+                    <td data-bind="text: content" style="white-space: nowrap"></td>
+                    <td><a href="#" data-bind="click: $parent.removeMessage">Delete</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
