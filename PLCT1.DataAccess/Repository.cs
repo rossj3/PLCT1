@@ -12,8 +12,7 @@ namespace PLCT1.DataAccess
 
         public IEnumerable<PLCT1.Message> GetMessages()
         {
-            var x = _entities.Messages.ToList();
-            return x.Select(m => new PLCT1.Message
+            return _entities.Messages.Select(m => new PLCT1.Message
             {
                 Content = m.Content,
                 DatePosted = m.DatePosted,

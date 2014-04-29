@@ -1,32 +1,38 @@
 ﻿@{
     ViewBag.Title = "MVC 5 Demo";
 }
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js" type="text/javascript"></script>
-<script src="~/Scripts/bootstrap.min.js" type="text/javascript"></script>
-<script src="~/Scripts/custom_MessageKoBinding.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        ko.applyBindings(new MessageListViewModel());
-    });
-</script>
+@section scripts{
 
-<link rel="stylesheet" type="text/css" href="/Content/font-awesome.css">
-<link rel="stylesheet" type="text/css" href="/Content/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="/Content/bootstrap.min.css">
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js" type="text/javascript"></script>
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js" type="text/javascript"></script>
+
+    <script src="~/Scripts/custom_MessageKoBinding.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            ko.applyBindings(new MessageListViewModel());
+        });
+    </script>
+}
+
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
 <div class="jumbotron">
     <h1>ASP.NET MVC 5 Demo</h1>
+
+    <i class="icon-twitter"></i>
     <p class="lead">Use the controls below to view, add and delete messages.</p>
 </div>
+
 
 <div class="row">
     <div class="col-md-4">
         <h2>Add a Message</h2>
-
         <form data-bind="submit: addMessage">
-            <input data-bind="value: newMessageText" placeholder="What needs to be done?" />
+            <input data-bind="value: newMessageText" placeholder="Enter new message here." />
             <button type="submit">Add</button>
         </form>
 
@@ -39,12 +45,12 @@
         You have <b data-bind="text: starredMessages().length">&nbsp;</b> starred message(s).
 
         <br />
-        <input type="checkbox" data-bind="checked: displayAll, event: { change: onDisplayAllChanged }" title="foo">Display All
+        <input type="checkbox" data-bind="checked: displayAll(), event: { change: onDisplayAllChanged }" title="foo">Display All
         <br />
         <table data-bind="visible: messages().length > 0">
             <thead>
                 <tr>
-                    <th>starred?</th><!-- Starred -->
+                    <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><!-- Starred? -->
                     <th>Date Posted</th>
                     <th>Message</th>
                     <th></th><!-- Delete button -->
@@ -53,12 +59,10 @@
             <tbody data-bind="foreach: messages">
                 <tr>
                     <td>
-                        <i class="fa fa-star"></i>
-                        <input type="checkbox" data-bind="value: isStarred">
-
-                        <i class="fa fa-star-o"></i>
+                        <i class="fa fa-star" style="color:gold" data-bind="visible: isStarred(), click: $parent.toggleStar"></i>
+                        <i class="fa fa-star-o" style="color:silver" data-bind="visible: !isStarred(), click: $parent.toggleStar"></i>
                     </td>
-                    <td data-bind="text: datePosted" style="white-space: nowrap"></td>
+                    <td data-bind="text: strDatePosted" style="white-space: nowrap"></td>
                     <td data-bind="text: content" style="white-space: nowrap"></td>
                     <td><a href="#" data-bind="click: $parent.removeMessage">Delete</a></td>
                 </tr>
@@ -66,3 +70,5 @@
         </table>
     </div>
 </div>
+
+
