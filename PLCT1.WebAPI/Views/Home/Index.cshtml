@@ -45,7 +45,7 @@
         You have <b data-bind="text: starredMessages().length">&nbsp;</b> starred message(s).
 
         <br />
-        <input type="checkbox" data-bind="checked: displayAll(), event: { change: onDisplayAllChanged }" title="foo">Display All
+        <input type="checkbox" data-bind="checked: displayAll" title="foo">Display All
         <br />
         <table data-bind="visible: messages().length > 0">
             <thead>
@@ -57,7 +57,7 @@
                 </tr>
             </thead>
             <tbody data-bind="foreach: messages">
-                <tr>
+                <tr data-bind="visible: isStarred() || $parent.displayAll()">
                     <td>
                         <i class="fa fa-star" style="color:gold" data-bind="visible: isStarred(), click: $parent.toggleStar"></i>
                         <i class="fa fa-star-o" style="color:silver" data-bind="visible: !isStarred(), click: $parent.toggleStar"></i>
@@ -70,5 +70,3 @@
         </table>
     </div>
 </div>
-
-

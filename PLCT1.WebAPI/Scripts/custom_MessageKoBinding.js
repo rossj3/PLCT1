@@ -18,9 +18,10 @@ function MessageListViewModel() {
 
     self.displayAll = ko.observable(); // if true, show starred and unstarred. otherwise only show starred.
     self.displayAll(true); // start out displaying all messages.
-    self.onDisplayAllChanged = function () {
-        // todo: fill this in!
-    };
+    //self.onDisplayAllChanged = function (val) {
+    //    alert("val: " + val.displayAll());
+    //    alert("displayAll: " + self.displayAll());
+    //};
     self.messages = ko.observableArray([]);
     self.newMessageText = ko.observable();
 
