@@ -16,7 +16,7 @@ namespace PLCT1.Web.Controllers
         // GET api/Messages
         public IEnumerable<PLCT1.Message> Get()
         {
-            return _repository.GetMessages().ToList();
+            return _repository.GetMessages().OrderByDescending(m => m.DatePosted).ToList();
         }
 
         // POST api/Messages
