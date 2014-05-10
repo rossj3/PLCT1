@@ -3,7 +3,6 @@
 }
 
 @section scripts{
-
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js" type="text/javascript"></script>
 
@@ -22,31 +21,43 @@
 
 <div class="jumbotron">
     <h1>ASP.NET MVC 5 Demo</h1>
-
-    <i class="icon-twitter"></i>
-    <p class="lead">Use the controls below to view, add and delete messages.</p>
+    <p class="lead">Messages</p>
 </div>
 
-
 <div class="row">
-    <div class="col-md-4">
-        <h2>Add a Message</h2>
+    <div class="col-lg-12 col-md-12 col-sm-12">
         <form data-bind="submit: addMessage">
-            <input data-bind="value: newMessageText" placeholder="Enter new message here." />
+            <input id="newMessageTextInput" data-bind="value: newMessageText, valueUpdate: 'input'" placeholder="Enter new messages here." style="width: 90%; max-width:800px" />
             <button type="submit">Add</button>
+            <span style="color:gray; font-size:small">Message length: </span><span data-bind="text: newMessageText().length"></span>
         </form>
-
     </div>
-    <div class="col-md-4">
-
-        <h2>Messages</h2>
-        You have <b data-bind="text: unstarredMessages().length">&nbsp;</b> unstarred message(s).
-        <br />
-        You have <b data-bind="text: starredMessages().length">&nbsp;</b> starred message(s).
-
-        <br />
-        <input type="checkbox" data-bind="checked: displayAll" title="foo">Display All
-        <br />
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <table>
+            <thead>
+                <h3>Message Count</h3>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><i class="fa fa-star" style="color:gold"></i>&nbsp;Starred</td>
+                    <td data-bind="text: starredMessages().length"></td>
+                </tr>
+                <tr>
+                    <td><i class="fa fa-star-o" style="color:silver"></i>&nbsp;Unstarred</td>
+                    <td data-bind="text: unstarredMessages().length"></td>
+                </tr>
+                <tr>
+                    <td><b>Total</b></td>
+                    <td data-bind="text: messages().length"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-9">
+        <h3>Messages</h3>
+        <input type="checkbox" data-bind="checked: displayAll" title="foo"> Display All
         <table data-bind="visible: messages().length > 0">
             <thead>
                 <tr>

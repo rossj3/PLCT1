@@ -44,15 +44,21 @@ function MessageListViewModel() {
     };
 
     self.addMessage = function () {
-        var newMessage = new Message({ Content: self.newMessageText(), IsStarred: false, MessageId: 0, DatePosted: '1/1/2000' });
+        if (self.newMessageText().length > 100) {
+            alert("The maximum message length is 100 characters. Please remove " + (self.newMessageText().length - 100) + " characters from the input before proceeding.");
+        }
+        else {
+            var newMessage = new Message({ Content: self.newMessageText(), IsStarred: false, MessageId: 0, DatePosted: '1/1/2000' });
 
-        //self.messages.push(newMessage); // this isn't really needed.
+            //self.messages.push(newMessage); // this isn't really needed.
 
-        $.post(urlBase + "Messages/", newMessage, function () {
-            // need to then refresh all existing data - AFTER the add has completed.
-            // reload all the messages (this will add in any messages added by other users since the last get)
-            self.loadData();
-        }, "json");
+            $.post(urlBase + "Messages/", newMessage, function () {
+                // need to then refresh all existing data - AFTER the add has completed.
+                // reload all the messages (this will add in any messages added by other users since the last get)
+                self.loadData();
+            }, "json");
+        }
+        $('#newMessageTextInput').focus();
     };
 
     self.updateMessage = function (message) {
